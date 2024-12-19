@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: jaffle_shop
+    database: DBT_DEV
+    schema: DBT_KTUMPEY
+    tables:
+      - name: jaffle_shop_customers
+      - name: jaffle_shop_orders

@@ -10,9 +10,9 @@ orders as (
 
 ),
 
-payments as ( 
+fct_orders as ( 
 
-    select * from {{ ref('stg_stripe__payments') }}
+    select * from {{ ref('fct_orders') }}
 
 ),
 
@@ -31,26 +31,14 @@ customer_orders as (
 
 ),
 
-order_payments as (
-
-    select
-        order_id,
-        sum(amount) as total_amount
-
-    from payments
-    where status = 'success'
-    group by 1
-
-),
-
 lifetime_value as (
 
     select
         orders.customer_id,
-        sum(order_payments.total_amount) as lifetime_value
+        sum(fct_orders.total_amount) as lifetime_value
 
     from orders
-    left join order_payments using (order_id)
+    left join fct_orders using (order_id)
     group by 1
 
 ),
